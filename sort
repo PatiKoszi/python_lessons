@@ -1,0 +1,96 @@
+from mimesis import Person
+import random
+
+
+class Employer:
+    def __init__(self, days_per_week, position, coef, name):
+        self.days_per_week = days_per_week
+        self.position = position
+        self.coef = coef
+        self.name = name
+
+    def get_salary(self):
+        return round(4 * self.days_per_week * self.coef, 2)
+
+    def __str__(self):
+        return f"{self.name} jest {self.position} pracuje {self.days_per_week} dni w tygodniu"
+
+
+class Accounter(Employer):
+    def __init__(self, name):
+        self.days_per_week = 5
+        self.position = "accounter"
+        self.coef = 0.5
+        self.name = name
+
+
+class Chief(Employer):
+    def __init__(self, name):
+        self.days_per_week = 4
+        self.position = "chief"
+        self.coef = 1.2
+        self.name = name
+
+
+class Cleaner(Employer):
+    def __init__(self, name):
+        self.days_per_week = 6
+        self.position = "cleaner"
+        self.coef = 0.6
+        self.name = name
+
+
+if __name__ == "__main__":
+
+    pracownicy = []
+
+    for i in range(100):
+        person = Person("pl")
+        position = random.randint(0, 3)
+        if position == 0:
+            pracownik = Accounter(name=person.full_name())
+        elif position == 1:
+            pracownik = Chief(name=person.full_name())
+        else:
+            pracownik = Cleaner(name=person.full_name())
+
+        pracownik.coef = random.random()
+        pracownicy.append(pracownik)
+
+
+    
+    suma =0
+    for person in pracownicy:
+         suma += person.get_salary()
+    print(suma)
+
+    #maxsalary=0
+    #for person in pracownicy:
+    #    if person.get_salary() > maxsalary:
+    #        maxsalary = person.get_salary()
+    #print(maxsalary, pracownik)
+
+    #minsalary=0
+    #pracownik.temp = None
+    #for person in pracownicy:
+    #    if person.get_salary() > maxsalary:
+    #        pracownik.temp = maxsalary
+    #        minsalary = person.get_salary()
+    #print(minsalary, pracownik)
+
+    
+    pracownicy.sort(key=lambda x: x.get_salary())
+
+    for pracownik in pracownicy:
+
+        print(pracownik, pracownik.get_salary())
+
+    # max_index = 0
+    # max_salary = pracownicy[0].get_salary()
+    
+    # for ind, person in enumerate(pracownicy[1:]):
+    #     if person.get_salary() > max_salary:
+    #         max_index = ind + 1
+    #         max_salary = person.get_salary()
+
+    # print(pracownicy[max_index], pracownicy[max_index].get_salary(), max_salary)
